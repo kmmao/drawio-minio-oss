@@ -1,13 +1,26 @@
+import {UserService} from "./user-service";
+import {GlobalConfig} from "../global-config";
+
 const express = require('express');
 const router = express.Router();
 // https://docs.min.io/cn/javascript-client-quickstart-guide.html
 const Minio = require('minio');
-const config = require('../config');
-const BucketName = config.BucketName;
+const BucketName = GlobalConfig.config.BucketName;
 
+let baseUrl = process.env.drawioUrl
+console.log('drawio url :', baseUrl)
 /* GET home page. */
 router.get('/', open);
+router.get('/getDrawioUrl', (req, res, next) => {
+    res.status(200).send({
+        baseUrl
+    })
+});
+router.get('/login', UserService.login);
+router.get('/listUserFile', UserService.apiListUserFile);
 router.put('/', save);
+router.post('/apiCreateFile', UserService.apiCreateFile);
+router.post('/apiDeleteFile', UserService.apiDeleteFile);
 
 function open(req, res, next) {
     let fileName = req.param('filename');
@@ -16,7 +29,7 @@ function open(req, res, next) {
         let bufferList = [];
         if (err) {
             if (err.code === 'NoSuchKey') {
-                res.render('edit', {fileName: fileName, imageData: config.NewFileContent});
+                res.render('edit', {fileName: fileName, imageData: GlobalConfig.config.NewFileContent});
                 return;
             }
             console.log(err);
@@ -30,7 +43,7 @@ function open(req, res, next) {
         dataStream.on('end', function () {
             // https://nodejs.org/api/buffer.html#buffer_buf_tostring_encoding_start_end
             let fileContent = Buffer.from(bufferList).toString();
-            console.log('End. Total size = ' + size + ',content = ' + fileContent);
+            // console.log('End. Total size = ' + size + ',content = ' + fileContent);
             res.render('edit', {fileName: fileName, imageData: fileContent});
         });
         dataStream.on('error', function (err) {
@@ -57,6 +70,6 @@ function save(req, res, next) {
     res.send('success');
 }
 
-let minioClient = new Minio.Client(config.MinioConfig);
-
+let minioClient = new Minio.Client(GlobalConfig.config.MinioConfig);
+UserService.loadUserListByIo(minioClient)
 module.exports = router;

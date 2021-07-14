@@ -1,33 +1,25 @@
-# drawio-webdav
+# 介绍
+基于drawio的私有化改造
 
-采用webdav方式存储drawio文件的解决方案
+# 功能特性
+- 支持OSS部署(本来就是支持的限于部署服务器的带宽问题，将静态页面转到OSS部署加快页面访问速度)
+- 废弃第三方的远程数据存储
+- 新增基于MinIO的第三方存储方案
+- 在私有化后，新增用户登录、并且管理创建的流程图文件
 
-目前实现
-- 存储到minio
+# Docker版部署指南
+## 需要的组件服务说明
+1. MinIO服务(tcp服务)
+2. Drawio私有云后端服务(http服务)
+3. Drawio的私有云后台前端（html静态）
+4. Drawio的核心服务（html静态）
 
-待实现
-- 存储到dzzoffice
-- 存储到nextcloud
+## docker-compose一站式全部部署
 
-## TODO
 
-- [ ] 增加内网部署 draw.io
 
-## DEMO
 
-**使用docker**
 
-`docker run --rm -p 3000:3000 itrizon/drawio-webdav:demo`
+# 参考源码
 
-浏览器访问： `http://127.0.0.1:3000/?filename=a_file`
-
-**本地部署**
-
-```bash
-git clone https://github.com/othorizon/drawio-webdav.git
-cd drawio-minio
-npm install
-npm start
-```
-
-浏览器访问： `http://127.0.0.1:3000/?filename=any_filename`
+https://github.com/othorizon/drawio-webdav 提供MinIO存储支持

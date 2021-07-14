@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Drawio 私有云-管理</title>
+    <script src="config.js"></script>
+
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="layer/css/layui.css">
+    <link rel="stylesheet" href="css/drawio-style.css">
+
+</head>
+<body>
+<div id="app">
+
+    <div class="app-container">
+        <div class="app-content">
+            <div class="app-content-header">
+                <h1 class="app-content-headerText">流程图管理</h1>
+                <button @click="clickSwitchMode" class="mode-switch" title="Switch Theme">
+                    <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                         stroke-width="2" width="24" height="24" viewbox="0 0 24 24">
+                        <defs></defs>
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+                </button>
+                <button @click="clickCreate" class="app-content-headerButton">添加流程图</button>
+            </div>
+            <div class="app-content-actions">
+                <input v-model="searchText" class="search-bar" placeholder="Search..." type="text">
+                <button @click='updateList' class="layui-btn layui-btn-small " style="margin-left:20px;">刷新</i></button>
+                <div class="app-content-actions-wrapper">
+                    <!--                    <div class="filter-button-wrapper">-->
+                    <!--                        <button class="action-button filter jsFilter"><span>筛选</span>-->
+                    <!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24"-->
+                    <!--                                 fill="none"-->
+                    <!--                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"-->
+                    <!--                                 class="feather feather-filter">-->
+                    <!--                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>-->
+                    <!--                            </svg>-->
+                    <!--                        </button>-->
+                    <!--                        <div class="filter-menu">-->
+                    <!--                            <label>分类</label>-->
+                    <!--                            <select>-->
+                    <!--                                <option>All Categories</option>-->
+                    <!--                                <option>Furniture</option>-->
+                    <!--                                <option>Decoration</option>-->
+                    <!--                                <option>Kitchen</option>-->
+                    <!--                                <option>Bathroom</option>-->
+                    <!--                            </select>-->
+                    <!--                            <label>状态</label>-->
+                    <!--                            <select>-->
+                    <!--                                <option>All Status</option>-->
+                    <!--                                <option>Active</option>-->
+                    <!--                                <option>Disabled</option>-->
+                    <!--                            </select>-->
+                    <!--                            <div class="filter-menu-buttons">-->
+                    <!--                                <button class="filter-button reset">-->
+                    <!--                                    重置-->
+                    <!--                                </button>-->
+                    <!--                                <button class="filter-button apply">-->
+                    <!--                                    提交-->
+                    <!--                                </button>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <!--                    <button class="action-button list active" title="List View">-->
+                    <!--                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none"-->
+                    <!--                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"-->
+                    <!--                             class="feather feather-list">-->
+                    <!--                            <line x1="8" y1="6" x2="21" y2="6"></line>-->
+                    <!--                            <line x1="8" y1="12" x2="21" y2="12"></line>-->
+                    <!--                            <line x1="8" y1="18" x2="21" y2="18"></line>-->
+                    <!--                            <line x1="3" y1="6" x2="3.01" y2="6"></line>-->
+                    <!--                            <line x1="3" y1="12" x2="3.01" y2="12"></line>-->
+                    <!--                            <line x1="3" y1="18" x2="3.01" y2="18"></line>-->
+                    <!--                        </svg>-->
+                    <!--                    </button>-->
+                    <!--                    <button class="action-button grid" title="Grid View">-->
+                    <!--                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none"-->
+                    <!--                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"-->
+                    <!--                             class="feather feather-grid">-->
+                    <!--                            <rect x="3" y="3" width="7" height="7"></rect>-->
+                    <!--                            <rect x="14" y="3" width="7" height="7"></rect>-->
+                    <!--                            <rect x="14" y="14" width="7" height="7"></rect>-->
+                    <!--                            <rect x="3" y="14" width="7" height="7"></rect>-->
+                    <!--                        </svg>-->
+                    <!--                    </button>-->
+                </div>
+            </div>
+            <div class="products-area-wrapper tableView">
+                <div class="products-header">
+                    <div class="product-cell image">
+                        名称
+
+                    </div>
+                    <div class="product-cell category">文件大小
+
+                    </div>
+                    <div class="product-cell status-cell">最后修改时间
+
+                    </div>
+                    <div class="product-cell sales">
+                        操作
+                        <!--                    <button class="sort-button">-->
+                        <!--                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 512 512">-->
+                        <!--                            <path fill="currentColor"-->
+                        <!--                                  d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"></path>-->
+                        <!--                        </svg>-->
+                        <!--                    </button>-->
+                    </div>
+                    <!--                <div class="product-cell stock">库存-->
+                    <!--                    <button class="sort-button">-->
+                    <!--                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 512 512">-->
+                    <!--                            <path fill="currentColor"-->
+                    <!--                                  d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"></path>-->
+                    <!--                        </svg>-->
+                    <!--                    </button>-->
+                    <!--                </div>-->
+                    <!--                <div class="product-cell price">价格-->
+                    <!--                    <button class="sort-button">-->
+                    <!--                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 512 512">-->
+                    <!--                            <path fill="currentColor"-->
+                    <!--                                  d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"></path>-->
+                    <!--                        </svg>-->
+                    <!--                    </button>-->
+                    <!--                </div>-->
+                </div>
+                <div class="products-row" v-for="item in list">
+                    <button class="cell-more-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-more-vertical">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="12" cy="5" r="1"></circle>
+                            <circle cx="12" cy="19" r="1"></circle>
+                        </svg>
+                    </button>
+                    <div class="product-cell status-cell">
+                        <span class="cell-label">{{item.name}}</span>
+                        <span class="status active">{{item.name}}</span>
+                    </div>
+
+                    <div class="product-cell category">
+                        <span>
+                        {{item.size | formatSize}}</span>
+                    </div>
+                    <div class="product-cell image">
+                        <span>{{item.lastModified}}</span>
+                    </div>
+                    <div class="product-cell sales layui-btn-group">
+                        <button class="layui-btn layui-btn-mini" @click="clickEdit(item)">编辑</button>
+                        <button class="layui-btn layui-btn-mini" @click="clickDelete(item)">删除</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue.js!',
+            list: [],
+            searchText: '',
+            fullList: []
+        },
+        mounted() {
+            this.updateList()
+        },
+        watch: {
+            searchText: function () {
+                this.changeSearch(this.searchText)
+            }
+        },
+        filters: {
+            formatSize: (v) => {
+                if (v < 1024) {
+                    return v + "B"
+                } else if (v < 1024 * 1024) {
+                    return (v / 1024).toFixed(2) + "KB"
+                } else {
+                    return (v / 1024).toFixed(2) + "KB"
+                }
+            }
+        }
+        ,
+        methods: {
+            clickEdit(item) {
+                window.open(baseUrl + "?filename=" + item.name)
+            },
+            clickDelete(item) {
+                layer.confirm('确认要删除' + item.name + "?", {
+                    btn: ['确认', '取消']
+                }, (index, layero) => {
+                    console.log(index, layero)
+                    //按钮【按钮一】的回调
+
+                    let rep = $.ajax({
+                        url: baseUrl + "/apiDeleteFile",
+                        data: {token: localStorage.getItem('token'), name: item.name},
+                        async: false,
+                        type: 'POST'
+                    });
+                    rep = rep.responseJSON
+                    console.log('rep', rep)
+                    if (rep.code !== 200) {
+                        layer.msg(rep.msg)
+                        //go login
+                        return
+                    }
+                    this.updateList()
+
+                    layer.closeAll()
+                }, function (index) {
+                    //按钮【按钮二】的回调
+                });
+
+            },
+            clickCreate() {
+                layer.prompt((value, index, elem) => {
+
+                    let rep = $.ajax({
+                        url: baseUrl + "/apiCreateFile",
+                        data: {token: localStorage.getItem('token'), name: value},
+                        async: false,
+                        type: 'POST'
+                    });
+                    rep = rep.responseJSON
+                    console.log('rep', rep)
+                    if (rep.code !== 200) {
+                        layer.msg(rep.msg)
+                        //go login
+                        return
+                    }
+                    this.updateList()
+                    layer.close(index);
+                });
+            },
+            clickSwitchMode() {
+                document.documentElement.classList.toggle('light');
+                modeSwitch.classList.toggle('active');
+            }
+            ,
+            changeSearch(text) {
+                console.log('search', text)
+                this.list = this.fullList.filter(item => item.name.indexOf(text) > -1)
+            }
+            ,
+            updateList() {
+                let rep = $.ajax({
+                    url: baseUrl + "/listUserFile",
+                    data: {token: localStorage.getItem('token')},
+                    async: false,
+                    type: 'GET'
+                });
+                rep = rep.responseJSON
+                if (rep.code !== 200) {
+                    layer.msg(rep.msg)
+                    //go login
+                    window.location.href = window.location.href.replace('drawio.html', 'login.html')
+                    return
+                }
+                this.list = rep.data
+                this.fullList = JSON.parse(JSON.stringify(this.list))
+            }
+        }
+    })
+</script>
+</body>
+</html>
