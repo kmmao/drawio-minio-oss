@@ -17,23 +17,23 @@
 
 ## docker-compose一站式全部部署(非oss方案)
 > 此方案非oss方案，即一个主机部署即可
-### 部署前提准备
+### 1.部署前提准备
 1. 安装docker环境
 2. 安装docker-compose环境(版本不要太低)
 3. 一台主机(推荐Linux系统)
 
-### 拉取源码
+### 2.拉取源码
 > 部署依赖于源码部署，所以需要将整个源码拉下来
 ```shell
 git clone https://github.com/mathcoder23/drawio-minio-oss
 cd drawio-minio-oss
 ```
-### 运行docker-compose
+### 3.运行docker-compose
 ```shell
 cd docker/compose/
 docker-compose -f docker-compose-drawio.yml up
 ```
-### 登录MinIO后台配置账号
+### 4.登录MinIO后台配置账号
 在docker-compose中我们给drawio-admin配置的MinIO连接参数如下
 ```
     minio1:
@@ -69,15 +69,17 @@ docker-compose -f docker-compose-drawio.yml up
 根据我们配置的MinIO后台账号`minio`和`minio123`,登录`http://localhost:9001`
 #### 1.创建用户
 ADMIN->Users点击Create User,这里我们创建的用户账号密码为`test123123`和`test123123`,因为yml中已经配置了，如果想自定义可以自行更改
+[login](aaa)
 #### 2.为用户分配读写权限
 
 #### 3. 创建Bucket
 我们在yml中配置的Bucket名称为`drawio`,因此需要创建一个这个
-### 重启docker-compose
+### 5.重启docker-compose
 > 这一步的作用是重新连接到minio服务
 >
-### 登录Drawio私有云后台
+### 6.登录Drawio私有云后台
 > 当服务重启后，进入`http://localhost:8080`,使用默认的账号密码`admin`和`admin`登录
+
 ### 创建新的流程图
 ### 编辑流程图
 
