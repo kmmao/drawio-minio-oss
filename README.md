@@ -1,5 +1,7 @@
 # DrawIO 基于MinIO以及OSS私有云方案
-基于drawio的私有化实现以及私有化云端存储方案
+> 基于drawio的私有云实现以及私有云端存储方案
+
+> 项目地址：[https://github.com/mathcoder23/drawio-minio-oss](https://github.com/mathcoder23/drawio-minio-oss)
 
 # 功能特性
 - 支持OSS部署(本来就是支持的，限于部署服务器的带宽问题，将静态页面转到OSS部署加快页面访问速度)
@@ -8,7 +10,10 @@
 - 支持通过接口创建、管理、删除登录用户信息
 
 # 效果示例
-## 登录界面
+![登录](https://raw.githubusercontent.com/mathcoder23/drawio-minio-oss/19503bf801dc1d7b153fdb895979c6572c4dedea/readme/images/login-example.png)
+![编辑流程图1](https://github.com/mathcoder23/drawio-minio-oss/blob/5d9ade20d1699be4580fe8b11271e2a3ad4143aa/readme/images/drawio-edit1.png)
+![编辑流程图](https://raw.githubusercontent.com/mathcoder23/drawio-minio-oss/19503bf801dc1d7b153fdb895979c6572c4dedea/readme/images/drawio-edit.png)
+
 # Drawio-minio-oss版部署指南
 ## 需要的组件服务说明
 1. MinIO服务(tcp服务、内网通讯)
@@ -87,11 +92,12 @@ ADMIN->Users点击Create User,这里我们创建的用户账号密码为`test123
 ![登录](https://raw.githubusercontent.com/mathcoder23/drawio-minio-oss/19503bf801dc1d7b153fdb895979c6572c4dedea/readme/images/login-example.png)
 
 ### 7.创建新的流程图
+> 这里说明一下命名规范，/将会对数据进行分组，虽然此分组还没显示出来但是之后会，还有一点 /a和/a/b 其中a不能同时存在，不能即是文件又是文件夹
 ![创建新的流程图](https://raw.githubusercontent.com/mathcoder23/drawio-minio-oss/19503bf801dc1d7b153fdb895979c6572c4dedea/readme/images/create-drawio.png)
 
 ### 8.编辑流程图
 
-![编辑流程图1](https://raw.githubusercontent.com/mathcoder23/drawio-minio-oss/19503bf801dc1d7b153fdb895979c6572c4dedea/readme/images/drawio-edit1.png)
+![编辑流程图1](https://github.com/mathcoder23/drawio-minio-oss/blob/5d9ade20d1699be4580fe8b11271e2a3ad4143aa/readme/images/drawio-edit1.png)
 ![编辑流程图](https://raw.githubusercontent.com/mathcoder23/drawio-minio-oss/19503bf801dc1d7b153fdb895979c6572c4dedea/readme/images/drawio-edit.png)
 
 ### 9.完成
