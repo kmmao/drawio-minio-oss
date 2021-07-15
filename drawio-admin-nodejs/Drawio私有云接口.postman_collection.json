@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "349357dd-ef4d-4470-85a1-35c7e07f75d4",
+		"name": "Drawio私有云接口",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "账户登录",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/login?username=admin&password=123123",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "admin"
+						},
+						{
+							"key": "password",
+							"value": "123123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "获取用户列表",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/apiListUser?token=admin1626331407759",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"apiListUser"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "admin1626331407759",
+							"description": "只有admin有权限"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "创建用户",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/apiCreateUser?token=admin1626331017041&username&password",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"apiCreateUser"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "admin1626331017041",
+							"description": "只有admin有权限"
+						},
+						{
+							"key": "username",
+							"value": null
+						},
+						{
+							"key": "password",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "更改用户密码",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/apiUpdateUser?token=admin1626331017041&password=123123",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"apiUpdateUser"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "admin1626331017041",
+							"description": "只有admin有权限"
+						},
+						{
+							"key": "password",
+							"value": "123123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "删除用户",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/apiDeleteUser?token=admin1626331300642&username=123",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"apiDeleteUser"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "admin1626331300642"
+						},
+						{
+							"key": "username",
+							"value": "123",
+							"description": "当token权限为admin时，可以指定username删除，否则只能删除token对应的用户"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
