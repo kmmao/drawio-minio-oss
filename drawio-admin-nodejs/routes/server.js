@@ -7,20 +7,32 @@ const router = express.Router();
 const Minio = require('minio');
 const BucketName = GlobalConfig.config.BucketName;
 
-let baseUrl = process.env.drawioUrl
-console.log('drawio url :', baseUrl)
+let baseUrl = process.env.DRAWIO_URL
+if (!baseUrl || baseUrl.length === 0) {
+    baseUrl = "/drawio/index.html"
+    console.log('not red env [drawioUrl] use default:', baseUrl)
+
+} else {
+    console.log('drawio url :', baseUrl)
+}
 /* GET home page. */
 router.get('/', open);
-router.get('/getDrawioUrl', (req, res, next) => {
-    res.status(200).send({
-        baseUrl
-    })
-});
+router.get('/getDrawioUrl', getDrawioUrl);
 router.get('/login', UserService.login);
 router.get('/listUserFile', UserService.apiListUserFile);
 router.put('/', save);
 router.post('/apiCreateFile', UserService.apiCreateFile);
 router.post('/apiDeleteFile', UserService.apiDeleteFile);
+router.get('/apiCreateUser', UserService.apiCreateUser);
+router.get('/apiUpdateUser', UserService.apiUpdateUser);
+router.get('/apiDeleteUser', UserService.apiDeleteUser);
+router.get('/apiListUser', UserService.apiListUser);
+
+function getDrawioUrl(req, res, next) {
+    res.status(200).send({
+        baseUrl
+    })
+}
 
 function open(req, res, next) {
     let fileName = req.param('filename');
@@ -70,6 +82,37 @@ function save(req, res, next) {
     res.send('success');
 }
 
-let minioClient = new Minio.Client(GlobalConfig.config.MinioConfig);
-UserService.loadUserListByIo(minioClient)
+function initMinioBucket(minioClient) {
+    minioClient.bucketExists(GlobalConfig.config.BucketName, function (err) {
+        if (err) {
+            if (err.code == 'NoSuchBucket') return console.log("bucket does not exist.")
+            minioClient.makeBucket(GlobalConfig.config.BucketName, '', function (err) {
+                if (err) return console.log('Error creating bucket.', err)
+                console.log('Bucket created successfully in "".', GlobalConfig.config.BucketName)
+            })
+            return console.log(err)
+        }
+        // if err is null it indicates that the bucket exists.
+        console.log('Bucket exists.', GlobalConfig.config.BucketName, err)
+    })
+}
+
+let minioClient;
+
+function connectMinio() {
+    try {
+        minioClient = new Minio.Client(GlobalConfig.config.MinioConfig);
+
+    } catch (e) {
+        setTimeout(() => {
+            connectMinio()
+        }, 2000)
+        return
+    }
+
+    // initMinioBucket(minioClient)
+    UserService.loadUserListByIo(minioClient)
+}
+
+connectMinio()
 module.exports = router;

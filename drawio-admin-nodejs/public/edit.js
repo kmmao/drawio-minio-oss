@@ -1,7 +1,7 @@
 // https://github.com/jgraph/drawio-webdav
 function getUrl(cb) {
     const Http = new XMLHttpRequest();
-    const url = window.location.origin + "/getDrawioUrl";
+    const url = window.location.origin + "/api/getDrawioUrl";
     Http.open("GET", url);
     Http.send();
 
@@ -52,7 +52,7 @@ function editDiagram(image) {
     };
 
     window.addEventListener('message', receive);
-    iframe.setAttribute('src', baseUrl + '/index.html?embed=1&ui=atlas&spin=1&modified=unsavedChanges&proto=json');
+    iframe.setAttribute('src', baseUrl + '?embed=1&ui=atlas&spin=1&modified=unsavedChanges&proto=json');
     document.body.appendChild(iframe);
 }
 

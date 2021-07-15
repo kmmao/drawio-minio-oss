@@ -17,6 +17,7 @@
         <div class="app-content">
             <div class="app-content-header">
                 <h1 class="app-content-headerText">流程图管理</h1>
+
                 <button @click="clickSwitchMode" class="mode-switch" title="Switch Theme">
                     <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                          stroke-width="2" width="24" height="24" viewbox="0 0 24 24">
@@ -24,11 +25,12 @@
                         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
                     </svg>
                 </button>
+                <button @click='logout' class="app-content-headerButton" style="margin-left:20px;margin-right:20px;">退出</button>
                 <button @click="clickCreate" class="app-content-headerButton">添加流程图</button>
             </div>
             <div class="app-content-actions">
                 <input v-model="searchText" class="search-bar" placeholder="Search..." type="text">
-                <button @click='updateList' class="layui-btn layui-btn-small " style="margin-left:20px;">刷新</i></button>
+                <button @click='updateList' class="layui-btn layui-btn-small " style="margin-left:20px;">刷新</button>
                 <div class="app-content-actions-wrapper">
                     <!--                    <div class="filter-button-wrapper">-->
                     <!--                        <button class="action-button filter jsFilter"><span>筛选</span>-->
@@ -193,6 +195,14 @@
         }
         ,
         methods: {
+            logout() {
+                localStorage.clear()
+                if (location.href.indexOf('drawio.html') > 0) {
+                    window.location.href = window.location.href.replace('drawio.html', 'login.html')
+                } else {
+                    window.location.href = location.origin + location.pathname + "login.html" + location.search
+                }
+            },
             clickEdit(item) {
                 window.open(baseUrl + "?filename=" + item.name)
             },
@@ -265,7 +275,11 @@
                 if (rep.code !== 200) {
                     layer.msg(rep.msg)
                     //go login
-                    window.location.href = window.location.href.replace('drawio.html', 'login.html')
+                    if (location.href.indexOf('drawio.html') > 0) {
+                        window.location.href = window.location.href.replace('drawio.html', 'login.html')
+                    } else {
+                        window.location.href = location.origin + location.pathname + "login.html" + location.search
+                    }
                     return
                 }
                 this.list = rep.data

@@ -1,6 +1,6 @@
 {
-  "name": "drawio-webdav",
-  "version": "0.0.0",
+  "name": "drawio-admin",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "babel-node --presets env ./bin/www"

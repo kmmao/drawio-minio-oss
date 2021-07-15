@@ -30,6 +30,7 @@
                 dotColor: '#5cbdaa',
                 lineColor: '#5cbdaa'
             });
+            $("#serverUrl").html("服务器:" + baseUrl)
             //测试提交，对接程序删除即可
             $(".submit_btn").click(function () {
                 let username = $("#username").val()
@@ -78,8 +79,8 @@
         <p>https://github.com/mathcoder23/drawio-minio-oss</p>
     </dd>
     <dd>
-        <p>
-            服务器:http://localhost:3000
+        <p id="serverUrl">
+
         </p>
     </dd>
 </dl>

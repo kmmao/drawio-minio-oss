@@ -201,10 +201,128 @@ const apiDeleteFile = (req, res, next) => {
     })
 
 }
+
+const apiUpdateUser = (req, res, next) => {
+    let token = req.query.token
+    let password = req.query.password
+    let user = getSession(token)
+    if (!password || password.length < 4) {
+        res.send({
+            code: 405,
+            msg: '密码至少5位'
+        })
+    }
+    if (user && user.username) {
+        console.log('update user:', user.username)
+        userList[user.username].password = password
+        saveUserList(client)
+        res.send(200, {
+            code: 200,
+            data: 'ok'
+        })
+    } else {
+        res.send({
+            code: 404,
+            msg: '登录失效'
+        })
+    }
+}
+const apiCreateUser = (req, res, next) => {
+    let token = req.query.token
+    let username = req.query.username
+    let password = req.query.password
+    if (!username || !password || username.length < 4 || password.length < 4) {
+        res.send({
+            code: 405,
+            msg: '用户名或密码至少5位'
+        })
+    }
+    let user = getSession(token)
+    //只有admin能够创建用户
+    if (user && user.username === 'admin') {
+        if (userList[username]) {
+            res.send({
+                code: 405,
+                msg: '此用户已存在'
+            })
+            return
+        }
+        console.log('create user:', username)
+        userList[username] = {
+            username: username,
+            password: password,
+            role: 'normal'
+        }
+        saveUserList(client)
+        res.send(200, {
+            code: 200,
+            data: 'ok'
+        })
+    } else {
+        res.send({
+            code: 404,
+            msg: '登录失效'
+        })
+    }
+}
+const apiListUser = (req, res, next) => {
+    let token = req.query.token
+    let user = getSession(token)
+    //只有admin能够创建用户
+    if (user && user.username === 'admin') {
+
+        res.send(200, {
+            code: 200,
+            data: userList
+        })
+    } else {
+        res.send({
+            code: 404,
+            msg: '登录失效'
+        })
+    }
+}
+const apiDeleteUser = (req, res, next) => {
+    let token = req.query.token
+    let user = getSession(token)
+
+    if (user && user.username) {
+        let username = user.username
+        if(user.username === 'admin'){
+            username = req.query.username
+            if(username === 'admin'){
+                res.send(200, {
+                    code: 200,
+                    data: '不能删除admin自身'
+                })
+                return
+            }
+        }else{
+            delete sessionList[token]
+        }
+        console.log('delete user:', username)
+
+        delete userList[username]
+        saveUserList(client)
+        res.send(200, {
+            code: 200,
+            data: 'ok'
+        })
+    } else {
+        res.send({
+            code: 404,
+            msg: '登录失效'
+        })
+    }
+}
 export const UserService = {
     login: login,
     loadUserListByIo: loadUserListByIo,
     apiCreateFile: apiCreateFile,
     apiDeleteFile: apiDeleteFile,
-    apiListUserFile: apiListUserFile
+    apiListUserFile: apiListUserFile,
+    apiUpdateUser: apiUpdateUser,
+    apiCreateUser: apiCreateUser,
+    apiDeleteUser: apiDeleteUser,
+    apiListUser: apiListUser
 }
