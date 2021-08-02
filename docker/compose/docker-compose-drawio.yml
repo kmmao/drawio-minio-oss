@@ -25,7 +25,7 @@ services:
     build:
       context: ../../drawio-admin-nodejs
       dockerfile: Dockerfile
-    image: drawio-admin:1.21
+    image: drawio-admin:1.22
     environment:
       DRAWIO_URL: ''
       MINIO_ACCESS_KEY: 'test123123'
